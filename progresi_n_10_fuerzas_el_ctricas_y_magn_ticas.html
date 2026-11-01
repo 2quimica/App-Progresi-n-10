@@ -1,0 +1,1814 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Progresión 10: Fuerzas Eléctricas y Magnéticas</title>
+  <style>
+    :root {
+      --bg-dark: #080c16;
+      --bg-card: #12192c;
+      --bg-card-hover: #1a243f;
+      --border-color: #243252;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent-cyan: #06b6d4;
+      --accent-cyan-glow: rgba(6, 182, 212, 0.25);
+      --accent-purple: #8b5cf6;
+      --accent-purple-glow: rgba(139, 92, 246, 0.25);
+      --accent-amber: #f59e0b;
+      --accent-amber-glow: rgba(245, 158, 11, 0.2);
+      --success: #10b981;
+      --success-bg: rgba(16, 185, 129, 0.15);
+      --danger: #ef4444;
+      --danger-bg: rgba(239, 68, 68, 0.15);
+      --font-stack: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      color: var(--text-main);
+      font-family: var(--font-stack);
+      line-height: 1.5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 12px;
+      overflow-x: hidden;
+    }
+
+    #app-container {
+      width: 100%;
+      max-width: 720px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    /* Fixed Sticky Top Navigation & Progress Bar */
+    .top-bar {
+      position: sticky;
+      top: 8px;
+      z-index: 100;
+      background: rgba(18, 25, 44, 0.95);
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 10px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      backdrop-filter: blur(10px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+    }
+
+    .top-bar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .user-tag {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 220px;
+    }
+
+    .phase-badge {
+      font-size: 0.75rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 12px;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      color: #fff;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .progress-bar-track {
+      width: 100%;
+      height: 8px;
+      background-color: #0a0f1d;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent-cyan), var(--accent-purple));
+      transition: width 0.4s ease;
+    }
+
+    /* Standard App Cards */
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .card-header-badge {
+      align-self: flex-start;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(6, 182, 212, 0.15);
+      color: var(--accent-cyan);
+      border: 1px solid var(--accent-cyan-glow);
+    }
+
+    h1 {
+      font-size: 1.45rem;
+      font-weight: 800;
+      line-height: 1.25;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    h2 {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
+    }
+
+    p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    strong {
+      color: var(--text-main);
+    }
+
+    /* Remember Connection Box */
+    .remember-box {
+      background: #0a0f1d;
+      border-left: 4px solid var(--accent-cyan);
+      padding: 12px 14px;
+      border-radius: 8px;
+      font-size: 0.88rem;
+    }
+
+    /* Teacher Pause Card */
+    .teacher-pause-card {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.12), rgba(139, 92, 246, 0.12));
+      border: 2px dashed var(--accent-amber);
+      border-radius: 16px;
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .teacher-pause-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--accent-amber);
+    }
+
+    /* Form Inputs & Buttons */
+    .input-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .input-group label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--text-main);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .input-control {
+      width: 100%;
+      padding: 14px 16px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border-color);
+      background-color: #0a0f1d;
+      color: var(--text-main);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-control:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 0 3px var(--accent-cyan-glow);
+    }
+
+    .btn {
+      width: 100%;
+      min-height: 50px;
+      padding: 12px 20px;
+      border-radius: 12px;
+      border: none;
+      font-size: 0.98rem;
+      font-weight: 700;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+      user-select: none;
+      text-decoration: none;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent-cyan), #0284c7);
+      color: #ffffff;
+      box-shadow: 0 4px 14px var(--accent-cyan-glow);
+    }
+
+    .btn-primary:active {
+      transform: scale(0.98);
+    }
+
+    .btn-secondary {
+      background-color: #17223b;
+      color: var(--text-main);
+      border: 1.5px solid var(--border-color);
+    }
+
+    .btn-secondary:hover {
+      background-color: var(--bg-card-hover);
+      border-color: var(--accent-cyan);
+    }
+
+    .btn-secondary.selected {
+      border-color: var(--accent-cyan);
+      background-color: rgba(6, 182, 212, 0.18);
+      color: #fff;
+    }
+
+    .btn-amber {
+      background: linear-gradient(135deg, var(--accent-amber), #d97706);
+      color: #ffffff;
+      box-shadow: 0 4px 14px var(--accent-amber-glow);
+    }
+
+    .btn-disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+
+    /* Simulators Container */
+    .sim-container {
+      background-color: #0a0f1d;
+      border: 1px solid var(--border-color);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .sim-canvas-box {
+      width: 100%;
+      min-height: 210px;
+      background-color: #050812;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .slider-control {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: #141d33;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-color);
+    }
+
+    .slider-control label {
+      font-size: 0.8rem;
+      font-weight: 700;
+      display: flex;
+      justify-content: space-between;
+      color: var(--accent-cyan);
+    }
+
+    .slider-control input[type="range"] {
+      width: 100%;
+      accent-color: var(--accent-cyan);
+      cursor: pointer;
+    }
+
+    .value-display {
+      font-weight: 800;
+      color: var(--text-main);
+    }
+
+    /* Options Stack */
+    .options-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .option-btn {
+      width: 100%;
+      min-height: 48px;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 1.5px solid var(--border-color);
+      background-color: #0a0f1d;
+      color: var(--text-main);
+      font-size: 0.92rem;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.15s ease;
+    }
+
+    .option-btn:hover:not(.btn-disabled) {
+      border-color: var(--accent-cyan);
+      background-color: var(--bg-card-hover);
+    }
+
+    .option-btn.selected {
+      border-color: var(--accent-cyan);
+      background-color: rgba(6, 182, 212, 0.12);
+    }
+
+    .option-letter {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background-color: var(--border-color);
+      color: var(--text-main);
+      font-weight: 800;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feedback-box {
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.9rem;
+    }
+
+    .feedback-correct {
+      background-color: var(--success-bg);
+      border: 1.5px solid var(--success);
+      color: #6ee7b7;
+    }
+
+    .feedback-incorrect {
+      background-color: var(--danger-bg);
+      border: 1.5px solid var(--danger);
+      color: #fca5a5;
+    }
+
+    /* Flashcards */
+    .flashcard {
+      background: #0a0f1d;
+      border: 1px solid var(--border-color);
+      border-left: 4px solid var(--accent-cyan);
+      border-radius: 12px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .flashcard-title {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+    }
+
+    /* Touch Classifier (3-4 Columns) */
+    .category-columns {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 520px) {
+      .category-columns {
+        grid-template-columns: 1fr 1fr 1fr;
+      }
+    }
+
+    .category-box {
+      background-color: #0a0f1d;
+      border: 1.5px dashed var(--border-color);
+      border-radius: 12px;
+      padding: 10px;
+      min-height: 110px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      transition: border-color 0.2s;
+    }
+
+    .category-box.active-target {
+      border-color: var(--accent-cyan);
+      background-color: rgba(6, 182, 212, 0.05);
+    }
+
+    .category-title {
+      font-size: 0.78rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      text-align: center;
+      color: var(--accent-cyan);
+    }
+
+    .items-pool {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding: 10px;
+      background-color: #0a0f1d;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .chip-item {
+      padding: 8px 12px;
+      border-radius: 20px;
+      background-color: #1a253e;
+      border: 1px solid var(--border-color);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.15s ease;
+    }
+
+    .chip-item.selected-chip {
+      border-color: var(--accent-cyan);
+      background-color: var(--accent-cyan);
+      color: #000;
+      font-weight: 800;
+    }
+
+    /* Concept Map Touch Interactive */
+    .map-nodes-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    @media (min-width: 480px) {
+      .map-nodes-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .map-node {
+      background-color: #0a0f1d;
+      border: 1.5px solid var(--border-color);
+      border-radius: 12px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .map-node-label {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+      font-weight: 700;
+    }
+
+    .map-slot {
+      min-height: 42px;
+      border: 1.5px dashed var(--accent-cyan);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--accent-cyan);
+      cursor: pointer;
+      background-color: rgba(6, 182, 212, 0.04);
+      padding: 6px 10px;
+      text-align: center;
+    }
+
+    .map-slot.filled {
+      border-style: solid;
+      background-color: #1e2c4a;
+      color: #fff;
+    }
+
+    /* Quiz Navigator Grid */
+    .quiz-nav-grid {
+      display: grid;
+      grid-template-columns: repeat(10, 1fr);
+      gap: 6px;
+      margin: 8px 0;
+    }
+
+    .quiz-nav-btn {
+      height: 36px;
+      border-radius: 8px;
+      border: 1px solid var(--border-color);
+      background-color: #0a0f1d;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.85rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .quiz-nav-btn.active {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+      box-shadow: 0 0 0 2px var(--accent-cyan-glow);
+    }
+
+    .quiz-nav-btn.answered {
+      background-color: #1e2c4a;
+      color: #fff;
+      border-color: var(--accent-purple);
+    }
+
+    /* Evidence Screenshot Card */
+    .evidence-card {
+      background: linear-gradient(180deg, #12192c 0%, #070b14 100%);
+      border: 2px solid var(--accent-cyan);
+      border-radius: 20px;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(6, 182, 212, 0.25);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .score-large {
+      font-size: 3.5rem;
+      font-weight: 900;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .badge-perf {
+      display: inline-block;
+      padding: 6px 18px;
+      border-radius: 20px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      letter-spacing: 0.05em;
+      align-self: center;
+    }
+
+    .badge-exc { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid #10b981; }
+    .badge-good { background: rgba(6, 182, 212, 0.2); color: #38bdf8; border: 1px solid #06b6d4; }
+    .badge-proc { background: rgba(245, 158, 11, 0.2); color: #fbbf24; border: 1px solid #f59e0b; }
+    .badge-reinf { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid #ef4444; }
+
+    .summary-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+    }
+
+    .summary-table td {
+      padding: 8px 10px;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .summary-table td:nth-child(2) {
+      text-align: right;
+      font-weight: 700;
+      color: var(--text-main);
+    }
+
+    .camera-notice {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(239, 68, 68, 0.2));
+      border: 1.5px dashed var(--accent-amber);
+      border-radius: 12px;
+      padding: 12px;
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: #fef08a;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="app-container">
+    <!-- Top Progress Bar -->
+    <div id="top-bar" class="top-bar" style="display: none;">
+      <div class="top-bar-header">
+        <span id="user-display-tag" class="user-tag">Estudiante</span>
+        <span id="phase-display-badge" class="phase-badge">FASE 1 DE 5</span>
+      </div>
+      <div class="progress-bar-track">
+        <div id="progress-bar-fill" class="progress-bar-fill"></div>
+      </div>
+    </div>
+
+    <!-- Main Dynamic Content Container -->
+    <main id="app-content"></main>
+  </div>
+
+  <script>
+    // --- QUIZ BANK FOR PROGRESIÓN 10 (EXACTLY 10 QUESTIONS) ---
+    const QUIZ_BANK = [
+      {
+        id: 1,
+        topic: "oersted",
+        question: "¿Cuál fue la trascendental conclusión del experimento realizado por Hans Christian Oersted al observar una brújula cerca de un alambre con corriente?",
+        options: [
+          "Demostró que las cargas eléctricas en movimiento (corriente) generan un campo magnético a su alrededor.",
+          "Demostró que la corriente eléctrica destruye el magnetismo de las brújulas.",
+          "Probó que la fuerza gravitatoria aumenta cuando la batería se calienta.",
+          "Comprobó que únicamente los imanes de hierro pueden conducir corriente."
+        ],
+        correct: 0,
+        explanation: "Oersted descubrió que las cargas eléctricas en movimiento producen un campo magnético capaz de desviar la aguja imantada de una brújula, unificando la electricidad y el magnetismo."
+      },
+      {
+        id: 2,
+        topic: "polaridad_campo",
+        question: "Al invertir la polaridad de la batería en el circuito (cambiar el sentido de la corriente), ¿qué le ocurre al campo magnético generado?",
+        options: [
+          "Permanece exactamente igual y la brújula no cambia de orientación.",
+          "El campo magnético invierte su sentido, desviando la aguja de la brújula en sentido opuesto.",
+          "El campo magnético se cancela permanentemente y se vuelve cero.",
+          "La corriente se convierte inmediatamente en fuerza gravitatoria."
+        ],
+        correct: 1,
+        explanation: "El sentido del campo magnético generado depende directamente de la dirección de la corriente. Al invertir la corriente, las líneas de inducción invierten su dirección."
+      },
+      {
+        id: 3,
+        topic: "geometria_campo",
+        question: "¿Qué forma geométrica poseen las líneas de campo magnético alrededor de un conductor recto que lleva corriente?",
+        options: [
+          "Líneas rectas paralelas que se extienden al infinito sin curvarse.",
+          "Circunferencias concéntricas y cerradas en planos perpendiculares al conductor.",
+          "Parábolas abiertas que salen únicamente de los extremos del cable.",
+          "Espirales cuadradas que se disipan en el aire."
+        ],
+        correct: 1,
+        explanation: "A diferencia de las líneas del campo eléctrico que pueden nacer y morir en cargas, las líneas del campo magnético alrededor de un alambre recto forman circuitos cerrados en forma de circunferencias concéntricas."
+      },
+      {
+        id: 4,
+        topic: "mano_derecha",
+        question: "Según la Regla de la Mano Derecha para un alambre recto, ¿qué representan respectivamente el dedo pulgar y los demás dedos curvados?",
+        options: [
+          "Pulgar = Masa del alambre; Dedos curvados = Voltaje de la batería.",
+          "Pulgar = Dirección de la corriente ($I$); Dedos curvados = Sentido de las líneas de inducción del campo magnético ($B$).",
+          "Pulgar = Fuerza de gravedad; Dedos curvados = Carga electrostática.",
+          "Pulgar = Campo magnético; Dedos curvados = Velocidad de la luz."
+        ],
+        correct: 1,
+        explanation: "Si se toma el alambre con la mano derecha de modo que el pulgar apunte en la dirección de la corriente, los dedos doblados indican la dirección circular del campo magnético."
+      },
+      {
+        id: 5,
+        topic: "direccion_mano_derecha",
+        question: "Si la corriente eléctrica en un alambre vertical fluye HACIA ARRIBA (↑), ¿en qué sentido circulan las líneas de campo magnético vistas desde arriba?",
+        options: [
+          "En sentido Antihorario (contrario a las manecillas del reloj).",
+          "En sentido Horario (a favor de las manecillas del reloj).",
+          "En línea recta hacia la derecha.",
+          "En línea recta hacia la izquierda."
+        ],
+        correct: 0,
+        explanation: "Apuntando el pulgar de la mano derecha hacia arriba, las yemas de los dedos se curvan rotando en sentido antihorario."
+      },
+      {
+        id: 6,
+        topic: "unidades_tesla",
+        question: "¿Cuál es la unidad oficial del Sistema Internacional (SI) para la intensidad del campo magnético y a cuántos Gauss ($G$) equivale?",
+        options: [
+          "El Tesla ($T$), y $1\\text{ T} = 10,000\\text{ Gauss}$.",
+          "El Coulomb ($C$), y $1\\text{ C} = 100\\text{ Gauss}$.",
+          "El Watt ($W$), y $1\\text{ W} = 1,000\\text{ Gauss}$.",
+          "El Newton ($N$), y $1\\text{ N} = 10\\text{ Gauss}$."
+        ],
+        correct: 0,
+        explanation: "La unidad SI del campo magnético es el Tesla ($T = \\text{N}/(\\text{A}\\cdot\\text{m})$). Una unidad menor comúnmente usada es el Gauss ($G$), donde $1\\text{ T} = 10,000\\text{ G}$."
+      },
+      {
+        id: 7,
+        topic: "corrientes_paralelas_mismo",
+        question: "¿Qué ocurre entre dos alambres paralelos cuando conducen corrientes eléctricas en el MISMO SENTIDO (↑ ↑)?",
+        options: [
+          "Experimentan una fuerza de ATRACCIÓN mutua.",
+          "Experimentan una fuerza de REPULSIÓN mutua.",
+          "No ejercen ninguna fuerza entre sí por ser metálicos.",
+          "Se calientan hasta anular sus campos magnéticos."
+        ],
+        correct: 0,
+        explanation: "Experimentos como los de Ampère demostraron que corrientes en el mismo sentido se atraen ($\u2191\u2191 \\rightarrow \\text{Atracción}$), lo cual es análogo pero inverso a la ley de las cargas electrostáticas."
+      },
+      {
+        id: 8,
+        topic: "corrientes_paralelas_opuesto",
+        question: "¿Qué ocurre entre dos conductores paralelos si transportan corrientes en SENTIDOS OPUESTOS (↑ ↓)?",
+        options: [
+          "Se atraen intensamente.",
+          "Experimentan una fuerza de REPULSIÓN mutua.",
+          "Giran en círculos formando una espiral.",
+          "Su masa disminuye proporcionalmente a la velocidad."
+        ],
+        correct: 1,
+        explanation: "Corrientes paralelas en sentidos contrarios generan campos que ejercen una fuerza neta de repulsión alejando ambos cables."
+      },
+      {
+        id: 9,
+        topic: "dependencia_distancia",
+        question: "A diferencia de las cargas puntuales ($1/r^2$), ¿cómo depende la intensidad del campo magnético $B$ respecto a la distancia $r$ alrededor de un alambre recto?",
+        options: [
+          "Es inversamente proporcional a la primera potencia de la distancia ($1/r$), debido a la geometría cilíndrica del alambre.",
+          "Es independiente de la distancia y vale lo mismo en todo el universo.",
+          "Es directamente proporcional al cubo de la distancia ($r^3$).",
+          "Depende de la masa del estudiante que mide el circuito."
+        ],
+        correct: 0,
+        explanation: "Por la geometría cilíndrica del alambre, el campo magnético decae como $1/r$ ($B = \\frac{\\mu_0 I}{2\\pi r}$), en armonía con el campo eléctrico de cilindros cargados."
+      },
+      {
+        id: 10,
+        topic: "analogia_interacciones",
+        question: "¿Cuál es una diferencia fundamental al comparar las interacciones Gravitatoria, Eléctrica y Magnética?",
+        options: [
+          "La gravedad es solo atractiva, la eléctrica atrae/repele según el signo de la carga, y la magnética atrae/repele según el sentido de las corrientes o polos.",
+          "La gravedad no actúa a distancia mientras que la eléctrica y magnética requieren contacto sólido.",
+          "Las tres fuerzas son exactamente idénticas en todas sus ecuaciones sin ninguna diferencia.",
+          "El magnetismo solo existe cuando los objetos están congelados."
+        ],
+        correct: 0,
+        explanation: "La masa gravitacional es solo positiva (siempre atrae); la carga eléctrica tiene signos (+ y -); y la interacción magnética surge de dipolos y corrientes en movimiento produciendo atracción o repulsión."
+      }
+    ];
+
+    // --- APPLICATION STATE ---
+    let state = {
+      user: { name: '', group: '' },
+      phase: 0, // 0: Start, 1: Engage, 2: Explore, 3: Explain, 4: Elaborate, 5: Evaluate
+      screen: 'START',
+      engage: { prediction: null, oerstedState: 'off', invPred: null },
+      explore: {
+        handCase: 'up', // 'up', 'down', 'out', 'in'
+        userHandDir: null,
+        currentVal: 5,
+        distVal: 2,
+        densityChoice: null
+      },
+      explain: {
+        parallelMode: 'same', // 'same', 'opposite'
+        parallelPred: null,
+        fuerzaChoice: null
+      },
+      elaborate: {
+        statements: [null, null, null, null, null],
+        classifier: {
+          items: [
+            { id: 'c1', text: 'Masa (kg)', cat: null, correct: 'grav' },
+            { id: 'c2', text: 'Carga (+ y -)', cat: null, correct: 'elec' },
+            { id: 'c3', text: 'Corriente ($I$)', cat: null, correct: 'mag' },
+            { id: 'c4', text: 'Siempre Atractiva', cat: null, correct: 'grav' },
+            { id: 'c5', text: 'Mismo sentido $\\rightarrow$ Atracción', cat: null, correct: 'mag' },
+            { id: 'c6', text: 'Mismo signo $\\rightarrow$ Repulsión', cat: null, correct: 'elec' }
+          ],
+          selectedChip: null
+        },
+        conceptMap: {
+          slots: { s1: null, s2: null, s3: null, s4: null },
+          checked: false
+        },
+        calculations: { p1: null, p2: null }
+      },
+      evaluate: {
+        currentQ: 0,
+        answers: new Array(10).fill(null),
+        submitted: false,
+        reflection: ''
+      }
+    };
+
+    const STORAGE_KEY = 'PROG10_PHYSICS_APP_STATE_V1';
+
+    function saveState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      } catch (e) {
+        console.warn("Storage error", e);
+      }
+    }
+
+    function loadState() {
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const parsed = JSON.parse(saved);
+          if (parsed && parsed.user && parsed.user.name) {
+            state = parsed;
+            return true;
+          }
+        }
+      } catch (e) {
+        console.warn("Error loading state", e);
+      }
+      return false;
+    }
+
+    // --- MAIN RENDER CONTROLLER ---
+    function renderApp() {
+      const container = document.getElementById('app-content');
+      const topBar = document.getElementById('top-bar');
+      const userTag = document.getElementById('user-display-tag');
+      const phaseBadge = document.getElementById('phase-display-badge');
+      const progressFill = document.getElementById('progress-bar-fill');
+
+      if (!container) return;
+
+      // Update Top Bar
+      if (state.screen === 'START') {
+        topBar.style.display = 'none';
+      } else {
+        topBar.style.display = 'flex';
+        userTag.textContent = `${state.user.name} (${state.user.group})`;
+        phaseBadge.textContent = `FASE ${state.phase} DE 5`;
+        const percent = Math.min(100, Math.max(5, (state.phase / 5) * 100));
+        progressFill.style.width = `${percent}%`;
+      }
+
+      // Views
+      switch (state.screen) {
+        case 'START': renderStartScreen(container); break;
+        case 'ENGAGE': renderEngageScreen(container); break;
+        case 'EXPLORE': renderExploreScreen(container); break;
+        case 'EXPLAIN': renderExplainScreen(container); break;
+        case 'ELABORATE': renderElaborateScreen(container); break;
+        case 'EVALUATE': renderEvaluateScreen(container); break;
+        case 'EVIDENCE': renderEvidenceScreen(container); break;
+        default: renderStartScreen(container);
+      }
+    }
+
+    // --- SCREEN 0: START / REGISTRATION ---
+    function renderStartScreen(container) {
+      container.innerHTML = `
+        <div class="card" style="text-align: center;">
+          <span class="card-header-badge" style="align-self: center;">LA ENERGÍA EN LOS PROCESOS DE LA VIDA DIARIA</span>
+          <h1 style="margin-top: 4px;">PROGRESIÓN 10</h1>
+          <h2 style="font-size: 1.1rem; color: #f8fafc; font-weight: 800;">FUERZAS ELÉCTRICAS Y MAGNÉTICAS</h2>
+          
+          <div class="remember-box" style="text-align: left; margin-top: 4px;">
+            <p style="font-size: 0.85rem; color: var(--accent-cyan); font-weight: 800;">📘 RECUERDA (CONEXIÓN CON PROG. 7–9):</p>
+            <p style="font-size: 0.82rem; color: var(--text-main); margin-top: 2px;">
+              FUERZA A DISTANCIA $\\rightarrow$ LEY DE COULOMB $\\rightarrow$ CAMPOS ELÉCTRICOS Y MAGNÉTICOS $\\rightarrow$ LÍNEAS DE CAMPO.
+            </p>
+          </div>
+
+          <form id="start-form" onsubmit="handleStartSubmit(event)" style="margin-top: 8px; display: flex; flex-direction: column; gap: 14px;">
+            <div class="input-group">
+              <label for="user-name">Nombre Completo del Estudiante *</label>
+              <input type="text" id="user-name" class="input-control" placeholder="Ej. Mariana López Hernández" required value="${state.user.name}">
+            </div>
+
+            <div class="input-group">
+              <label for="user-group">Grupo *</label>
+              <input type="text" id="user-group" class="input-control" placeholder="Ej. 401-A" required value="${state.user.group}">
+            </div>
+
+            <div style="background: #0a0f1d; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: left; font-size: 0.82rem; color: var(--text-muted);">
+              <p style="color: var(--accent-cyan); font-weight: 700; margin-bottom: 4px;">📌 Plan de Trabajo en Clase (50 min):</p>
+              <ul style="padding-left: 16px; display: flex; flex-direction: column; gap: 4px;">
+                <li><strong>1. Enganchar (5 min):</strong> Experimento virtual de Oersted (Brújula y Alambre).</li>
+                <li><strong>2. Explorar (10 min):</strong> Regla de la Mano Derecha y Simulador de Intensidad $B$.</li>
+                <li><strong>3. Explicar (12 min):</strong> Interacción de Corrientes Paralelas y Fuerza Magnética.</li>
+                <li><strong>4. Elaborar (13 min):</strong> Clasificador de 3 Interacciones, Mapa Conceptual y Problemas.</li>
+                <li><strong>5. Evaluar (10 min):</strong> Cuestionario final de 10 reactivos y reporte oficial.</li>
+              </ul>
+            </div>
+
+            <button type="submit" class="btn btn-primary">
+              🚀 COMENZAR MI RECORRIDO
+            </button>
+          </form>
+        </div>
+      `;
+    }
+
+    function handleStartSubmit(e) {
+      e.preventDefault();
+      const name = document.getElementById('user-name').value.trim();
+      const group = document.getElementById('user-group').value.trim();
+      if (!name || !group) return;
+
+      state.user.name = name;
+      state.user.group = group;
+      state.phase = 1;
+      state.screen = 'ENGAGE';
+      saveState();
+      renderApp();
+    }
+
+    // --- SCREEN 1: ENGAGE (5E - FASE 1) ---
+    function renderEngageScreen(container) {
+      container.innerHTML = `
+        <div class="card">
+          <span class="card-header-badge">FASE 1: ENGANCHAR (ENGAGE)</span>
+          <h1>1. El Experimento Histórico de Oersted</h1>
+          <p>En 1820, Hans Christian Oersted descubrió algo sorprendente mientras preparaba una demostración en clase: una brújula reaccionaba cuando por un cable cercano fluía corriente eléctrica.</p>
+
+          <!-- EXPERIMENT SIMULATOR SVG -->
+          <div class="sim-container">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-amber); text-transform: uppercase;">⚡ SIMULADOR: CIRCUITO Y BRÚJULA</span>
+            
+            <div class="sim-canvas-box">
+              ${renderOerstedSVG(state.engage.oerstedState)}
+            </div>
+
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <button class="btn btn-secondary ${state.engage.oerstedState === 'off' ? 'selected' : ''}" style="flex:1; min-width:110px;" onclick="setOersted('off')">⏹ CORRIENTE APAGADA</button>
+              <button class="btn btn-primary" style="flex:1; min-width:110px;" onclick="setOersted('on')">⚡ CORRIENTE ENCENDIDA</button>
+              <button class="btn btn-amber" style="flex:1; min-width:110px;" onclick="setOersted('inverted')">🔄 INVERTIR CORRIENTE</button>
+            </div>
+          </div>
+
+          <!-- Inquiry Question before reversing -->
+          <div style="background: #0a0f1d; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px;">
+            <p style="font-weight: 700; color: var(--text-main);">🤔 Indagación sobre el fenómeno:</p>
+            <p style="font-size: 0.88rem;">Si invertimos el sentido de la corriente en la batería, ¿qué esperas que ocurra con el campo magnético y la aguja de la brújula?</p>
+
+            <div class="options-stack">
+              <button class="option-btn ${state.engage.invPred === 0 ? 'selected' : ''}" onclick="selectInvPred(0)">
+                <span class="option-letter">A</span>
+                <span>La desviación de la aguja invierte su sentido, demostrando que la dirección del campo magnético depende de la corriente.</span>
+              </button>
+              <button class="option-btn ${state.engage.invPred === 1 ? 'selected' : ''}" onclick="selectInvPred(1)">
+                <span class="option-letter">B</span>
+                <span>La brújula se queda inmóvil porque el magnetismo no tiene dirección.</span>
+              </button>
+            </div>
+            ${state.engage.invPred === 0 ? `<div class="feedback-box feedback-correct">✅ ¡Correcto! Oersted demostró que una corriente eléctrica genera un campo magnético circundante cuya dirección invierte al cambiar la corriente.</div>` : ''}
+          </div>
+
+          <!-- TEACHER PAUSE 1 -->
+          <div class="teacher-pause-card">
+            <div class="teacher-pause-title">
+              <span>🧑‍🏫 PAUSA CON TU PROFESOR</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-main);">
+              "¿Qué evidencia aportó Oersted para demostrar que la electricidad y el magnetismo no eran fenómenos independientes sino manifestaciones del electromagnetismo?"
+            </p>
+            <button class="btn btn-amber" onclick="confirmTeacherPause(1)">
+              YA LO COMENTAMOS — CONTINUAR
+            </button>
+          </div>
+
+          <button class="btn btn-primary" onclick="goToPhase(2, 'EXPLORE')">
+            CONTINUAR A LA FASE 2: EXPLORAR ➡️
+          </button>
+        </div>
+      `;
+    }
+
+    function setOersted(mode) {
+      state.engage.oerstedState = mode;
+      saveState();
+      renderApp();
+    }
+
+    function selectInvPred(val) {
+      state.engage.invPred = val;
+      saveState();
+      renderApp();
+    }
+
+    function renderOerstedSVG(st) {
+      let angle = 0;
+      let label = "Circuito Abierto (Sin Corriente) — Aguja apunta al Norte";
+      let wireColor = "#64748b";
+
+      if (st === 'on') {
+        angle = 45;
+        label = "¡Corriente Activada (↑)! Campo generado desvía aguja hacia la derecha";
+        wireColor = "#f59e0b";
+      } else if (st === 'inverted') {
+        angle = -45;
+        label = "¡Corriente Invertida (↓)! El campo magnético invierte su sentido";
+        wireColor = "#06b6d4";
+      }
+
+      return `
+        <svg viewBox="0 0 340 130" style="width:100%; height:100%;">
+          <!-- Battery -->
+          <rect x="30" y="50" width="40" height="30" fill="#334155" rx="4"/>
+          <text x="50" y="70" fill="#f59e0b" font-size="11" font-weight="bold" text-anchor="middle">Pila 1.5V</text>
+
+          <!-- Circuit Wires -->
+          <path d="M 70 65 L 120 65 L 120 25 L 270 25 L 270 105 L 120 105 L 120 65" fill="none" stroke="${wireColor}" stroke-width="4"/>
+
+          <!-- Switch -->
+          <circle cx="190" cy="25" r="4" fill="#fff"/>
+          <circle cx="210" cy="25" r="4" fill="#fff"/>
+          <line x1="190" y1="25" x2="${st === 'off' ? '205' : '210'}" y2="${st === 'off' ? '10' : '25'}" stroke="#ef4444" stroke-width="3"/>
+
+          <!-- Compass -->
+          <circle cx="190" cy="65" r="22" fill="#0f172a" stroke="#06b6d4" stroke-width="2"/>
+          <g transform="rotate(${angle}, 190, 65)">
+            <polygon points="190,47 184,65 196,65" fill="#ef4444"/>
+            <polygon points="190,83 184,65 196,65" fill="#3b82f6"/>
+          </g>
+          <text x="190" y="122" fill="#38bdf8" font-size="9" font-weight="bold" text-anchor="middle">${label}</text>
+        </svg>
+      `;
+    }
+
+    // --- SCREEN 2: EXPLORE (5E - FASE 2) ---
+    function renderExploreScreen(container) {
+      container.innerHTML = `
+        <div class="card">
+          <span class="card-header-badge">FASE 2: EXPLORAR (EXPLORE)</span>
+          <h1>2. Geometría del Campo y Regla de la Mano Derecha</h1>
+          <p>Las líneas de campo magnético alrededor de un conductor recto forman <strong>circunferencias concéntricas cerradas</strong>. La dirección se determina con la <strong>Regla de la Mano Derecha</strong>.</p>
+
+          <!-- HAND RULE EXPLANATION SVG -->
+          <div class="sim-container">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-cyan); text-transform: uppercase;">🖐️ REGLA DE LA MANO DERECHA</span>
+            <p style="font-size: 0.85rem;"><strong>Pulgar:</strong> Dirección de la corriente ($I$).<br><strong>Dedos curvados:</strong> Sentido de las líneas del campo magnético ($B$).</p>
+
+            <!-- Case selector tabs -->
+            <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+              <button class="btn btn-secondary ${state.explore.handCase === 'up' ? 'selected' : ''}" style="flex:1; padding:6px; font-size:0.8rem;" onclick="setHandCase('up')">Corriente ↑ (Arriba)</button>
+              <button class="btn btn-secondary ${state.explore.handCase === 'down' ? 'selected' : ''}" style="flex:1; padding:6px; font-size:0.8rem;" onclick="setHandCase('down')">Corriente ↓ (Abajo)</button>
+              <button class="btn btn-secondary ${state.explore.handCase === 'out' ? 'selected' : ''}" style="flex:1; padding:6px; font-size:0.8rem;" onclick="setHandCase('out')">Corriente ⊙ (Sale)</button>
+              <button class="btn btn-secondary ${state.explore.handCase === 'in' ? 'selected' : ''}" style="flex:1; padding:6px; font-size:0.8rem;" onclick="setHandCase('in')">Corriente ⊗ (Entra)</button>
+            </div>
+
+            <div class="sim-canvas-box">
+              ${renderHandRuleSVG(state.explore.handCase)}
+            </div>
+          </div>
+
+          <!-- TEACHER PAUSE 2 -->
+          <div class="teacher-pause-card">
+            <div class="teacher-pause-title">
+              <span>🧑‍🏫 PAUSA CON TU PROFESOR</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-main);">
+              "Utiliza físicamente tu mano derecha. Apunta el pulgar en la dirección de la corriente y curva tus dedos para comprobar el sentido del campo en los casos anteriores."
+            </p>
+            <button class="btn btn-amber" onclick="confirmTeacherPause(2)">
+              YA LO PRACTICAMOS — CONTINUAR
+            </button>
+          </div>
+
+          <!-- INTENSITY AND DISTANCE SIMULATOR -->
+          <div class="sim-container">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-purple); text-transform: uppercase;">📏 INTENSIDAD DEL CAMPO MAGNÉTICO ($B = \\frac{\\mu_0 I}{2\\pi r}$)</span>
+            <p style="font-size: 0.85rem;">Modifica la Corriente ($I$) y la Distancia ($r$) para analizar cómo varía la magnitud del campo en Tesla ($T$) y Gauss ($G$):</p>
+
+            <div class="sim-canvas-box">
+              ${renderIntensitySVG(state.explore.currentVal, state.explore.distVal)}
+            </div>
+
+            <div class="slider-control">
+              <label>Corriente Eléctrica ($I$): <span class="value-display">${state.explore.currentVal} Amperes (A)</span></label>
+              <input type="range" min="1" max="10" value="${state.explore.currentVal}" oninput="updateExpSim('currentVal', this.value)">
+            </div>
+
+            <div class="slider-control">
+              <label>Distancia ($r$): <span class="value-display">${state.explore.distVal} cm (0.0${state.explore.distVal} m)</span></label>
+              <input type="range" min="1" max="5" value="${state.explore.distVal}" oninput="updateExpSim('distVal', this.value)">
+            </div>
+
+            ${renderBValueBox(state.explore.currentVal, state.explore.distVal)}
+          </div>
+
+          <button class="btn btn-primary" onclick="goToPhase(3, 'EXPLAIN')">
+            CONTINUAR A LA FASE 3: EXPLICAR ➡️
+          </button>
+        </div>
+      `;
+    }
+
+    function setHandCase(c) {
+      state.explore.handCase = c;
+      saveState();
+      renderApp();
+    }
+
+    function updateExpSim(key, val) {
+      state.explore[key] = parseFloat(val);
+      saveState();
+      renderApp();
+    }
+
+    function renderHandRuleSVG(c) {
+      if (c === 'up') {
+        return `
+          <svg viewBox="0 0 320 130" style="width:100%; height:100%;">
+            <!-- Vertical Conductor -->
+            <line x1="160" y1="110" x2="160" y2="20" stroke="#f59e0b" stroke-width="6"/>
+            <polygon points="160,10 152,25 168,25" fill="#f59e0b"/>
+            <text x="180" y="25" fill="#f59e0b" font-size="11" font-weight="bold">Corriente I (↑)</text>
+            <!-- Circular Field Loops -->
+            <ellipse cx="160" cy="65" rx="60" ry="20" fill="none" stroke="#06b6d4" stroke-width="2.5"/>
+            <!-- Direction arrows (Antihorario) -->
+            <polygon points="220,65 212,58 212,72" fill="#06b6d4"/>
+            <polygon points="100,65 108,58 108,72" fill="#06b6d4"/>
+            <text x="160" y="122" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">Campo Magnético: Sentido Antihorario (Visto desde arriba)</text>
+          </svg>
+        `;
+      } else if (c === 'down') {
+        return `
+          <svg viewBox="0 0 320 130" style="width:100%; height:100%;">
+            <line x1="160" y1="20" x2="160" y2="110" stroke="#f59e0b" stroke-width="6"/>
+            <polygon points="160,120 152,105 168,105" fill="#f59e0b"/>
+            <text x="180" y="110" fill="#f59e0b" font-size="11" font-weight="bold">Corriente I (↓)</text>
+            <ellipse cx="160" cy="65" rx="60" ry="20" fill="none" stroke="#06b6d4" stroke-width="2.5"/>
+            <!-- Direction arrows (Horario) -->
+            <polygon points="220,65 228,58 228,72" fill="#06b6d4"/>
+            <polygon points="100,65 92,58 92,72" fill="#06b6d4"/>
+            <text x="160" y="122" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">Campo Magnético: Sentido Horario (Visto desde arriba)</text>
+          </svg>
+        `;
+      } else if (c === 'out') {
+        return `
+          <svg viewBox="0 0 320 130" style="width:100%; height:100%;">
+            <!-- Circle with dot (saliendo de la pantalla) -->
+            <circle cx="160" cy="65" r="18" fill="#0f172a" stroke="#f59e0b" stroke-width="3"/>
+            <circle cx="160" cy="65" r="5" fill="#f59e0b"/>
+            <!-- Concentric Circles -->
+            <circle cx="160" cy="65" r="38" fill="none" stroke="#06b6d4" stroke-width="2"/>
+            <circle cx="160" cy="65" r="55" fill="none" stroke="#06b6d4" stroke-width="2"/>
+            <!-- Arrows Antihorario -->
+            <polygon points="160,10 152,16 168,16" fill="#06b6d4"/>
+            <polygon points="160,120 168,114 152,114" fill="#06b6d4"/>
+            <text x="160" y="122" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">Corriente Sale ⊙ $\\rightarrow$ Campo Antihorario</text>
+          </svg>
+        `;
+      } else if (c === 'in') {
+        return `
+          <svg viewBox="0 0 320 130" style="width:100%; height:100%;">
+            <!-- Circle with X (entrando a la pantalla) -->
+            <circle cx="160" cy="65" r="18" fill="#0f172a" stroke="#f59e0b" stroke-width="3"/>
+            <line x1="150" y1="55" x2="170" y2="75" stroke="#f59e0b" stroke-width="3"/>
+            <line x1="170" y1="55" x2="150" y2="75" stroke="#f59e0b" stroke-width="3"/>
+            <circle cx="160" cy="65" r="38" fill="none" stroke="#06b6d4" stroke-width="2"/>
+            <circle cx="160" cy="65" r="55" fill="none" stroke="#06b6d4" stroke-width="2"/>
+            <!-- Arrows Horario -->
+            <polygon points="160,10 168,16 152,16" fill="#06b6d4"/>
+            <polygon points="160,120 152,114 168,114" fill="#06b6d4"/>
+            <text x="160" y="122" fill="#38bdf8" font-size="10" font-weight="bold" text-anchor="middle">Corriente Entra ⊗ $\\rightarrow$ Campo Horario</text>
+          </svg>
+        `;
+      }
+    }
+
+    function renderIntensitySVG(I, r) {
+      const radius = r * 16;
+      const strokeW = Math.max(1, I * 0.6);
+      return `
+        <svg viewBox="0 0 320 130" style="width:100%; height:100%;">
+          <line x1="160" y1="110" x2="160" y2="20" stroke="#f59e0b" stroke-width="${Math.max(3, I*0.8)}"/>
+          <circle cx="160" cy="65" r="${radius}" fill="none" stroke="#06b6d4" stroke-width="${strokeW}" stroke-dasharray="4,2"/>
+          <circle cx="${160 + radius}" cy="65" r="5" fill="#ef4444"/>
+          <text x="${160 + radius}" y="52" fill="#ef4444" font-size="9" font-weight="bold" text-anchor="middle">Punto P (r=${r}cm)</text>
+          <text x="160" y="122" fill="#38bdf8" font-size="9" text-anchor="middle">A mayor corriente $I$ y menor distancia $r$, el campo $B$ es más intenso</text>
+        </svg>
+      `;
+    }
+
+    function renderBValueBox(I, r) {
+      // B = (mu0 * I) / (2 * pi * r) where mu0 = 4pi x 10^-7
+      // B = (2 x 10^-7 * I) / (r in meters)
+      const rMeters = r * 0.01;
+      const B_Tesla = (2e-7 * I) / rMeters; // Tesla
+      const B_microTesla = (B_Tesla * 1e6).toFixed(1);
+      const B_Gauss = (B_Tesla * 10000).toFixed(3);
+
+      return `
+        <div style="background: #141d33; padding: 12px; border-radius: 10px; display: flex; justify-content: space-around; text-align: center;">
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">CAMPO EN TESLA ($T$):</span>
+            <div style="font-size: 1.15rem; font-weight: 800; color: var(--accent-cyan); font-family: monospace;">${B_microTesla} μT</div>
+          </div>
+          <div style="border-left: 1px solid var(--border-color); height: 32px;"></div>
+          <div>
+            <span style="font-size: 0.75rem; color: var(--text-muted);">EQUIVALENTE EN GAUSS ($G$):</span>
+            <div style="font-size: 1.15rem; font-weight: 800; color: var(--accent-purple); font-family: monospace;">${B_Gauss} G</div>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- SCREEN 3: EXPLAIN (5E - FASE 3) ---
+    function renderExplainScreen(container) {
+      container.innerHTML = `
+        <div class="card">
+          <span class="card-header-badge">FASE 3: EXPLICAR (EXPLAIN)</span>
+          <h1>3. Interacción entre Corrientes Paralelas y Fuerza Magnética</h1>
+          <p>Experimentos inducidos por Ampère demostraron que dos alambres paralelos con corriente ejercen fuerzas magnéticas entre sí.</p>
+
+          <!-- PARALLEL CONDUCTORS SIMULATOR -->
+          <div class="sim-container">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-amber); text-transform: uppercase;">🧲 INTERACCIÓN ENTRE ALAMBRES PARALELOS</span>
+            
+            <div style="display: flex; gap: 8px;">
+              <button class="btn btn-secondary ${state.explain.parallelMode === 'same' ? 'selected' : ''}" style="flex:1;" onclick="setParallelMode('same')">MISMO SENTIDO (↑ ↑)</button>
+              <button class="btn btn-secondary ${state.explain.parallelMode === 'opposite' ? 'selected' : ''}" style="flex:1;" onclick="setParallelMode('opposite')">SENTIDOS OPUESTOS (↑ ↓)</button>
+            </div>
+
+            <div class="sim-canvas-box">
+              ${renderParallelWiresSVG(state.explain.parallelMode)}
+            </div>
+          </div>
+
+          <!-- COMPARISON PARADOX BOX -->
+          <div style="background: #0a0f1d; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-cyan); text-transform: uppercase;">💡 COMPARACIÓN CON LA LEY DE CARGAS</span>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px; font-size: 0.85rem;">
+              <div style="background: #141d33; padding: 10px; border-radius: 8px;">
+                <strong style="color: var(--accent-purple);">⚡ CARGAS ELECTROSTÁTICAS:</strong><br>
+                • Signos Iguales (+ +) $\\rightarrow$ REPULSIÓN<br>
+                • Signos Opuestos (+ -) $\\rightarrow$ ATRACCIÓN
+              </div>
+              <div style="background: #141d33; padding: 10px; border-radius: 8px;">
+                <strong style="color: var(--accent-cyan);">🧲 CORRIENTES PARALELAS:</strong><br>
+                • Mismo Sentido (↑ ↑) $\\rightarrow$ ATRACCIÓN<br>
+                • Sentidos Opuestos (↑ ↓) $\\rightarrow$ REPULSIÓN
+              </div>
+            </div>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-top: 4px;">¡Atención! Este resultado es análogo pero inverso a la ley de las cargas eléctricas estáticas.</p>
+          </div>
+
+          <!-- MATHEMATICAL FORMULATION & GEOMETRY SECRET -->
+          <div class="flashcard">
+            <span class="flashcard-title">📐 El "Secreto de la Geometría" y la Fuerza por Longitud</span>
+            <p style="font-size: 0.85rem;">
+              La fuerza entre alambres por unidad de longitud se expresa como:
+            </p>
+            <div style="background: #141d33; padding: 8px; border-radius: 8px; text-align: center; font-family: monospace; font-size: 1.05rem; color: #38bdf8; margin: 4px 0;">
+              $\\frac{F}{L} = k \\frac{I_1 I_2}{r} = I_1 B$
+            </div>
+            <p style="font-size: 0.82rem; color: var(--text-muted);">
+              A diferencia de las cargas puntuales ($1/r^2$), la fuerza entre conductores paralelos decae como $1/r$ debido a la <strong>simetría cilíndrica</strong> de los alambres.
+            </p>
+          </div>
+
+          <!-- TEACHER PAUSE 3 -->
+          <div class="teacher-pause-card">
+            <div class="teacher-pause-title">
+              <span>🧑‍🏫 PAUSA CON TU PROFESOR</span>
+            </div>
+            <p style="font-size: 0.9rem; color: var(--text-main);">
+              "Compara la fuerza entre dos cargas estáticas y dos corrientes paralelas. ¿Cómo explica la simetría cilíndrica que la fuerza decaiga con $1/r$?"
+            </p>
+            <button class="btn btn-amber" onclick="confirmTeacherPause(3)">
+              CONTINUAR
+            </button>
+          </div>
+
+          <button class="btn btn-primary" onclick="goToPhase(4, 'ELABORATE')">
+            CONTINUAR A LA FASE 4: ELABORAR ➡️
+          </button>
+        </div>
+      `;
+    }
+
+    function setParallelMode(mode) {
+      state.explain.parallelMode = mode;
+      saveState();
+      renderApp();
+    }
+
+    function renderParallelWiresSVG(mode) {
+      if (mode === 'same') {
+        return `
+          <svg viewBox="0 0 320 130" style="width:100%; height:100%;">
+            <!-- Left Wire (Curving inwards) -->
+            <path d="M 100 15 Q 115 65 100 115" fill="none" stroke="#f59e0b" stroke-width="5"/>
+            <polygon points="100,15 92,28 108,28" fill="#f59e0b"/>
+            <text x="80" y="65" fill="#f59e0b" font-size="11" font-weight="bold">I₁ (↑)</text>
+
+            <!-- Right Wire (Curving inwards) -->
+            <path d="M 220 15 Q 205 65 220 115" fill="none" stroke="#f59e0b" stroke-width="5"/>
+            <polygon points="220,15 212,28 228,28" fill="#f59e0b"/>
+            <text x="240" y="65" fill="#f59e0b" font-size="11" font-weight="bold">I₂ (↑)</text>
+
+            <!-- Attraction Force Vectors -->
+            <line x1="112" y1="65" x2="145" y2="65" stroke="#10b981" stroke-width="3"/>
+            <polygon points="145,65 137,60 137,70" fill="#10b981"/>
+
+            <line x1="208" y1="65" x2="175" y2="65" stroke="#10b981" stroke-width="3"/>
+            <polygon points="175,65 183,60 183,70" fill="#10b981"/>
+
+            <text x="160" y="122" fill="#10b981" font-size="10" font-weight="bold" text-anchor="middle">¡ATRACCIÓN MUTUA! Corrientes en el mismo sentido</text>
+          </svg>
+        `;
+      } else {
+        return `
+          <svg viewBox="0 0 320 130" style="width:100%; height:100%;">
+            <!-- Left Wire (Curving outwards) -->
+            <path d="M 110 15 Q 90 65 110 115" fill="none" stroke="#f59e0b" stroke-width="5"/>
+            <polygon points="110,15 102,28 118,28" fill="#f59e0b"/>
+            <text x="75" y="65" fill="#f59e0b" font-size="11" font-weight="bold">I₁ (↑)</text>
+
+            <!-- Right Wire (Curving outwards) -->
+            <path d="M 210 15 Q 230 65 210 115" fill="none" stroke="#06b6d4" stroke-width="5"/>
+            <polygon points="210,115 202,102 218,102" fill="#06b6d4"/>
+            <text x="245" y="65" fill="#06b6d4" font-size="11" font-weight="bold">I₂ (↓)</text>
+
+            <!-- Repulsion Force Vectors -->
+            <line x1="98" y1="65" x2="65" y2="65" stroke="#ef4444" stroke-width="3"/>
+            <polygon points="65,65 73,60 73,70" fill="#ef4444"/>
+
+            <line x1="222" y1="65" x2="255" y2="65" stroke="#ef4444" stroke-width="3"/>
+            <polygon points="255,65 247,60 247,70" fill="#ef4444"/>
+
+            <text x="160" y="122" fill="#ef4444" font-size="10" font-weight="bold" text-anchor="middle">¡REPULSIÓN MUTUA! Corrientes en sentidos opuestos</text>
+          </svg>
+        `;
+      }
+    }
+
+    // --- SCREEN 4: ELABORATE (5E - FASE 4) ---
+    function renderElaborateScreen(container) {
+      const clas = state.elaborate.classifier;
+      const cmap = state.elaborate.conceptMap;
+
+      container.innerHTML = `
+        <div class="card">
+          <span class="card-header-badge">FASE 4: ELABORAR (ELABORATE)</span>
+          <h1>4. Clasificador de Interacciones, Mapa Conceptual y Cálculos</h1>
+          <p>Organiza las propiedades de las tres fuerzas fundamentales y aplica las fórmulas aprendidas.</p>
+
+          <!-- ACTIVITY 1: TOUCH CLASSIFIER (3 COLUMNS) -->
+          <div style="background: #0a0f1d; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-cyan); text-transform: uppercase;">📊 ACTIVIDAD 1: CLASIFICADOR (Toca ficha → Toca columna)</span>
+            
+            <div class="items-pool">
+              ${clas.items.map(item => {
+                if (item.cat !== null) return '';
+                const isSel = clas.selectedChip === item.id;
+                return `
+                  <div class="chip-item ${isSel ? 'selected-chip' : ''}" onclick="selectChip('${item.id}')">
+                    ${item.text}
+                  </div>
+                `;
+              }).join('')}
+            </div>
+
+            <div class="category-columns">
+              <div class="category-box ${clas.selectedChip ? 'active-target' : ''}" onclick="placeChipInCat('grav')">
+                <div class="category-title">GRAVITATORIA</div>
+                ${clas.items.filter(i => i.cat === 'grav').map(i => `<div class="chip-item" onclick="removeChipFromCat('${i.id}')">${i.text} ✕</div>`).join('')}
+              </div>
+              <div class="category-box ${clas.selectedChip ? 'active-target' : ''}" onclick="placeChipInCat('elec')">
+                <div class="category-title">ELÉCTRICA</div>
+                ${clas.items.filter(i => i.cat === 'elec').map(i => `<div class="chip-item" onclick="removeChipFromCat('${i.id}')">${i.text} ✕</div>`).join('')}
+              </div>
+              <div class="category-box ${clas.selectedChip ? 'active-target' : ''}" onclick="placeChipInCat('mag')">
+                <div class="category-title">MAGNÉTICA</div>
+                ${clas.items.filter(i => i.cat === 'mag').map(i => `<div class="chip-item" onclick="removeChipFromCat('${i.id}')">${i.text} ✕</div>`).join('')}
+              </div>
+            </div>
+          </div>
+
+          <!-- ACTIVITY 2: STATEMENT VERIFICATION -->
+          <div style="background: #0a0f1d; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-purple); text-transform: uppercase;">⚠️ ACTIVIDAD 2: EVALUACIÓN DE AFIRMACIONES</span>
+            
+            ${renderStatementItem(0, "1. Una carga estática genera un campo magnético sin moverse.", false)}
+            ${renderStatementItem(1, "2. Al invertir el sentido de la corriente, el campo magnético invierte su dirección.", true)}
+            ${renderStatementItem(2, "3. Corrientes paralelas en el mismo sentido experimentan atracción.", true)}
+            ${renderStatementItem(3, "4. La unidad oficial del campo magnético en el SI es el Gauss.", false)}
+          </div>
+
+          <!-- ACTIVITY 3: CONCEPT MAP -->
+          <div style="background: #0a0f1d; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-amber); text-transform: uppercase;">🧩 ACTIVIDAD 3: MAPA CONCEPTUAL PROGRESIÓN 10</span>
+            <p style="font-size: 0.82rem;">Toca cada espacio punteado para colocar la palabra correspondiente:</p>
+
+            <div class="map-nodes-grid">
+              <div class="map-node">
+                <span class="map-node-label">1. Cargas eléctricas en movimiento crean:</span>
+                <div class="map-slot ${cmap.slots.s1 ? 'filled' : ''}" onclick="triggerConceptSlot('s1')">
+                  ${cmap.slots.s1 || 'Toca para seleccionar'}
+                </div>
+              </div>
+
+              <div class="map-node">
+                <span class="map-node-label">2. La dirección del campo se halla con:</span>
+                <div class="map-slot ${cmap.slots.s2 ? 'filled' : ''}" onclick="triggerConceptSlot('s2')">
+                  ${cmap.slots.s2 || 'Toca para seleccionar'}
+                </div>
+              </div>
+
+              <div class="map-node">
+                <span class="map-node-label">3. La intensidad del campo se mide en:</span>
+                <div class="map-slot ${cmap.slots.s3 ? 'filled' : ''}" onclick="triggerConceptSlot('s3')">
+                  ${cmap.slots.s3 || 'Toca para seleccionar'}
+                </div>
+              </div>
+
+              <div class="map-node">
+                <span class="map-node-label">4. Corrientes en el mismo sentido sufren:</span>
+                <div class="map-slot ${cmap.slots.s4 ? 'filled' : ''}" onclick="triggerConceptSlot('s4')">
+                  ${cmap.slots.s4 || 'Toca para seleccionar'}
+                </div>
+              </div>
+            </div>
+
+            <button class="btn btn-secondary" onclick="checkConceptMap()" style="margin-top: 4px;">
+              ✅ COMPROBAR MAPA CONCEPTUAL
+            </button>
+            ${cmap.checked ? `<div class="feedback-box feedback-correct">✅ ¡Excelente síntesis conceptual de la Progresión 10!</div>` : ''}
+          </div>
+
+          <!-- ACTIVITY 4: SIMPLE GUIDED PROBLEMS -->
+          <div style="background: #0a0f1d; padding: 14px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px;">
+            <span style="font-size: 0.82rem; font-weight: 800; color: var(--accent-cyan); text-transform: uppercase;">🧮 ACTIVIDAD 4: CÁLCULOS GUIADOS</span>
+
+            <div style="background: #141d33; padding: 10px; border-radius: 10px;">
+              <p style="font-size: 0.85rem; font-weight: 700; color: #fff;">Problema 1: A 0.01 m de un cable circula una corriente $I = 15\\text{ A}$. Si $B = \\frac{\\mu_0 I}{2\\pi r}$ con $\\mu_0 = 4\\pi \\times 10^{-7}$, ¿cuál es el campo $B$?</p>
+              <div style="display: flex; gap: 8px; margin-top: 6px;">
+                <button class="btn btn-secondary ${state.elaborate.calculations.p1 === '0.30' ? 'selected' : ''}" style="flex:1; padding:6px;" onclick="setCalc('p1', '0.30')">0.30 mT (300 μT)</button>
+                <button class="btn btn-secondary ${state.elaborate.calculations.p1 === '3.0' ? 'selected' : ''}" style="flex:1; padding:6px;" onclick="setCalc('p1', '3.0')">3.0 mT</button>
+              </div>
+              ${state.elaborate.calculations.p1 === '0.30' ? `<div class="feedback-box feedback-correct" style="margin-top:4px; font-size:0.8rem;">✅ ¡Correcto! $B = \\frac{(2\\times 10^{-7})(15)}{0.01} = 3\\times 10^{-4}\\text{ T} = 0.30\\text{ mT}$.</div>` : ''}
+            </div>
+          </div>
+
+          <button class="btn btn-primary" onclick="goToPhase(5, 'EVALUATE')">
+            CONTINUAR A LA FASE 5: EVALUAR 🏁
+          </button>
+        </div>
+      `;
+    }
+
+    function selectChip(id) {
+      state.elaborate.classifier.selectedChip = id;
+      saveState();
+      renderApp();
+    }
+
+    function placeChipInCat(targetCat) {
+      const selId = state.elaborate.classifier.selectedChip;
+      if (!selId) return;
+
+      const item = state.elaborate.classifier.items.find(i => i.id === selId);
+      if (item) item.cat = targetCat;
+
+      state.elaborate.classifier.selectedChip = null;
+      saveState();
+      renderApp();
+    }
+
+    function removeChipFromCat(id) {
+      const item = state.elaborate.classifier.items.find(i => i.id === id);
+      if (item) item.cat = null;
+      saveState();
+      renderApp();
+    }
+
+    function renderStatementItem(idx, stmt, isCorrect) {
+      const choice = state.elaborate.statements[idx];
+      return `
+        <div style="background: #141d33; padding: 10px; border-radius: 10px; display: flex; flex-direction: column; gap: 6px;">
+          <p style="font-size: 0.85rem; color: #fff; font-weight: 600;">${stmt}</p>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn btn-secondary ${choice === true ? 'selected' : ''}" style="flex:1; padding:6px; font-size:0.8rem;" onclick="setStatementChoice(${idx}, true)">CORRECTO</button>
+            <button class="btn btn-secondary ${choice === false ? 'selected' : ''}" style="flex:1; padding:6px; font-size:0.8rem;" onclick="setStatementChoice(${idx}, false)">NECESITA CORRECCIÓN</button>
+          </div>
+          ${choice !== null ? `
+            <div class="feedback-box ${choice === isCorrect ? 'feedback-correct' : 'feedback-incorrect'}" style="padding:6px 10px; font-size:0.78rem;">
+              ${choice === isCorrect ? '✅ Evaluado correctamente.' : '❌ Revisa el concepto teórico.'}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+
+    function setStatementChoice(idx, val) {
+      state.elaborate.statements[idx] = val;
+      saveState();
+      renderApp();
+    }
+
+    function triggerConceptSlot(slotKey) {
+      const options = [
+        "Campo magnético",
+        "Regla de la Mano Derecha",
+        "Tesla (T)",
+        "Atracción mutua"
+      ];
+      
+      const current = state.elaborate.conceptMap.slots[slotKey];
+      let nextIdx = 0;
+      if (current) {
+        const idx = options.indexOf(current);
+        nextIdx = (idx + 1) % options.length;
+      }
+      state.elaborate.conceptMap.slots[slotKey] = options[nextIdx];
+      saveState();
+      renderApp();
+    }
+
+    function checkConceptMap() {
+      state.elaborate.conceptMap.checked = true;
+      saveState();
+      renderApp();
+    }
+
+    function setCalc(probKey, val) {
+      state.elaborate.calculations[probKey] = val;
+      saveState();
+      renderApp();
+    }
+
+    // --- SCREEN 5: EVALUATE (5E - FASE 5) ---
+    function renderEvaluateScreen(container) {
+      const quiz = state.evaluate;
+      const currentIdx = quiz.currentQ;
+      const q = QUIZ_BANK[currentIdx];
+
+      container.innerHTML = `
+        <div class="card">
+          <span class="card-header-badge">FASE 5: EVALUACIÓN FORMATIVA (EVALUATE)</span>
+          <h1>5. Cuestionario de Evaluación Final</h1>
+          <p>Responde los 10 reactivos de opción múltiple de la Progresión 10. Puedes navegar libremente entre ellos antes de entregar.</p>
+
+          <!-- 10 Question Navigator Grid -->
+          <div class="quiz-nav-grid">
+            ${QUIZ_BANK.map((item, idx) => {
+              let cls = "quiz-nav-btn";
+              if (idx === currentIdx) cls += " active";
+              if (quiz.answers[idx] !== null) cls += " answered";
+              return `<button class="${cls}" onclick="navQuizTo(${idx})">${idx + 1}</button>`;
+            }).join('')}
+          </div>
+
+          <!-- Question Body -->
+          <div style="background: #0a0f1d; padding: 16px; border-radius: 12px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 14px;">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 0.8rem; font-weight: 800; color: var(--accent-cyan);">PREGUNTA ${currentIdx + 1} DE 10</span>
+              <span style="font-size: 0.78rem; color: var(--text-muted);">${q.topic.toUpperCase()}</span>
+            </div>
+
+            <p style="font-weight: 700; color: var(--text-main); font-size: 0.98rem; line-height: 1.4;">
+              ${q.question}
+            </p>
+
+            <div class="options-stack">
+              ${q.options.map((opt, i) => {
+                const isSelected = quiz.answers[currentIdx] === i;
+                const letters = ["A", "B", "C", "D"];
+                return `
+                  <button class="option-btn ${isSelected ? 'selected' : ''}" onclick="selectQuizAnswer(${i})">
+                    <span class="option-letter">${letters[i]}</span>
+                    <span>${opt}</span>
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <!-- Controls -->
+          <div style="display: flex; gap: 10px;">
+            <button class="btn btn-secondary" style="flex: 1;" ${currentIdx === 0 ? 'disabled' : ''} onclick="navQuizTo(${currentIdx - 1})">
+              ⬅️ ANTERIOR
+            </button>
+            <button class="btn btn-secondary" style="flex: 1;" ${currentIdx === 9 ? 'disabled' : ''} onclick="navQuizTo(${currentIdx + 1})">
+              SIGUIENTE ➡️
+            </button>
+          </div>
+
+          <div style="margin-top: 8px;">
+            ${renderSubmitQuizButton()}
+          </div>
+        </div>
+      `;
+    }
+
+    function navQuizTo(idx) {
+      state.evaluate.currentQ = idx;
+      saveState();
+      renderApp();
+    }
+
+    function selectQuizAnswer(optIdx) {
+      state.evaluate.answers[state.evaluate.currentQ] = optIdx;
+      saveState();
+      renderApp();
+    }
+
+    function renderSubmitQuizButton() {
+      const answeredCount = state.evaluate.answers.filter(a => a !== null).length;
+      if (answeredCount < 10) {
+        return `
+          <div style="text-align: center; font-size: 0.85rem; color: var(--accent-amber); margin-bottom: 6px;">
+            ⚠️ Has respondido ${answeredCount} de 10 preguntas. Completa todas para entregar.
+          </div>
+          <button class="btn btn-disabled">🏁 FINALIZAR EVALUACIÓN</button>
+        `;
+      }
+      return `
+        <button class="btn btn-primary" onclick="submitQuiz()">
+          🏁 FINALIZAR Y GENERAR EVIDENCIA OFICIAL
+        </button>
+      `;
+    }
+
+    function submitQuiz() {
+      state.evaluate.submitted = true;
+      state.screen = 'EVIDENCE';
+      saveState();
+      renderApp();
+    }
+
+    // --- SCREEN 6: EVIDENCE & RESULTS SCREEN ---
+    function renderEvidenceScreen(container) {
+      let correct = 0;
+      QUIZ_BANK.forEach((q, idx) => {
+        if (state.evaluate.answers[idx] === q.correct) correct++;
+      });
+      const pct = Math.round((correct / 10) * 100);
+
+      let perfText = "";
+      let perfClass = "";
+      if (pct >= 90) { perfText = "EXCELENTE"; perfClass = "badge-exc"; }
+      else if (pct >= 80) { perfText = "MUY BUEN DOMINIO"; perfClass = "badge-good"; }
+      else if (pct >= 70) { perfText = "BUEN DOMINIO"; perfClass = "badge-good"; }
+      else if (pct >= 60) { perfText = "EN PROCESO"; perfClass = "badge-proc"; }
+      else { perfText = "REQUIERE REFORZAMIENTO"; perfClass = "badge-reinf"; }
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('es-MX', { year: 'numeric', month: '2-digit', day: '2-digit' });
+      const timeStr = now.toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' });
+
+      container.innerHTML = `
+        <div class="evidence-card">
+          <span class="card-header-badge" style="align-self: center;">✅ PROGRESIÓN 10 COMPLETADA</span>
+          <h2 style="color: #fff; font-size: 1.1rem; margin-bottom: 2px;">LA ENERGÍA EN LOS PROCESOS DE LA VIDA DIARIA</h2>
+          <p style="color: var(--accent-cyan); font-weight: 700; font-size: 0.85rem;">PROGRESIÓN 10: FUERZAS ELÉCTRICAS Y MAGNÉTICAS</p>
+
+          <div style="background-color: #0a0f1d; border-radius: 12px; padding: 12px;">
+            <div style="font-size: 1.15rem; font-weight: 800; color: var(--text-main);">${state.user.name}</div>
+            <div style="font-size: 0.9rem; font-weight: 700; color: var(--accent-cyan);">GRUPO: ${state.user.group}</div>
+          </div>
+
+          <div class="score-large">${pct}%</div>
+          <div style="font-weight: 800; font-size: 1.1rem; color: var(--text-main);">
+            RESULTADO: ${correct} / 10 ACIERTOS
+          </div>
+
+          <div class="badge-perf ${perfClass}">
+            ${perfText}
+          </div>
+
+          <table class="summary-table">
+            <tr><td>Estudiante:</td><td>${state.user.name}</td></tr>
+            <tr><td>Grupo:</td><td>${state.user.group}</td></tr>
+            <tr><td>Reactivos Correctos:</td><td>${correct} de 10</td></tr>
+            <tr><td>Porcentaje Obtenido:</td><td>${pct}%</td></tr>
+            <tr><td>Fecha y Hora:</td><td>${dateStr} - ${timeStr}</td></tr>
+            <tr><td>Estatus de Sesión:</td><td>✅ EVALUACIÓN ENTREGADA</td></tr>
+          </table>
+
+          <!-- Metacognitive Reflection Box -->
+          <div style="background-color: #0a0f1d; border: 1px solid var(--border-color); border-radius: 12px; padding: 12px; text-align: left;">
+            <label style="font-size: 0.8rem; font-weight: 700; color: var(--accent-cyan); text-transform: uppercase;">🧠 Mi Reflexión Escrita:</label>
+            <p style="font-size: 0.82rem; margin-top: 4px; color: var(--text-muted);">En tus propias palabras: ¿Qué evidencia demuestra que la electricidad y el magnetismo están íntimamente relacionados?</p>
+            <textarea id="reflection-text" class="input-control" rows="3" style="margin-top: 6px; font-size: 0.88rem;" placeholder="Escribe aquí tu explicación para el profesor..." onchange="saveReflection(this.value)">${state.evaluate.reflection}</textarea>
+          </div>
+
+          <div class="camera-notice">
+            📸 TOMA UNA CAPTURA DE ESTA PANTALLA Y ENVÍALA A TU PROFESOR COMO EVIDENCIA.
+          </div>
+
+          <!-- Review Answers Collapsible -->
+          <div style="margin-top: 8px;">
+            <button class="btn btn-secondary" onclick="toggleAnswerReview()">
+              🔍 REVISAR RETROALIMENTACIÓN DE LAS 10 PREGUNTAS
+            </button>
+            <div id="answers-review-box" style="display: none; flex-direction: column; gap: 10px; margin-top: 12px; text-align: left;">
+              ${QUIZ_BANK.map((q, idx) => {
+                const userAns = state.evaluate.answers[idx];
+                const isCorr = userAns === q.correct;
+                return `
+                  <div style="background: #0a0f1d; border: 1px solid ${isCorr ? 'var(--success)' : 'var(--danger)'}; border-radius: 10px; padding: 10px; font-size: 0.85rem;">
+                    <div style="font-weight: 700; color: #fff;">${idx + 1}. ${q.question}</div>
+                    <div style="color: ${isCorr ? '#6ee7b7' : '#fca5a5'}; margin-top: 4px;">
+                      Tu respuesta: ${q.options[userAns]} ${isCorr ? '✅' : '❌'}
+                    </div>
+                    ${!isCorr ? `<div style="color: #38bdf8; font-weight: 600;">Respuesta correcta: ${q.options[q.correct]}</div>` : ''}
+                    <div style="color: var(--text-muted); margin-top: 4px; font-size: 0.8rem;"><strong>Explicación:</strong> ${q.explanation}</div>
+                  </div>
+                `;
+              }).join('')}
+            </div>
+          </div>
+
+          <button class="btn btn-secondary" style="margin-top: 12px;" onclick="resetQuizSession()">
+            🔄 Reiniciar sesión para otro estudiante
+          </button>
+        </div>
+      `;
+    }
+
+    function saveReflection(val) {
+      state.evaluate.reflection = val;
+      saveState();
+    }
+
+    function toggleAnswerReview() {
+      const box = document.getElementById('answers-review-box');
+      if (box) {
+        box.style.display = box.style.display === 'none' ? 'flex' : 'none';
+      }
+    }
+
+    function resetQuizSession() {
+      if (confirm("¿Deseas reiniciar la aplicación para otro estudiante?")) {
+        try {
+          localStorage.removeItem(STORAGE_KEY);
+        } catch(e) {}
+        state.user = { name: '', group: '' };
+        state.phase = 0;
+        state.screen = 'START';
+        state.evaluate.answers = new Array(10).fill(null);
+        state.evaluate.submitted = false;
+        renderApp();
+      }
+    }
+
+    function confirmTeacherPause(num) {
+      alert(`✅ Pausa Docente #${num} registrada. Continúa con tu clase.`);
+    }
+
+    function goToPhase(phaseNum, screenName) {
+      state.phase = phaseNum;
+      state.screen = screenName;
+      saveState();
+      renderApp();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // --- INITIALIZATION ---
+    window.onload = function() {
+      loadState();
+      renderApp();
+    };
+  </script>
+</body>
+</html>
